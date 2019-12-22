@@ -1,7 +1,7 @@
 # javaonline
 javaonline
 
-部署完成网站为：http://usoppp.com;附件为源代码
+附件为源代码，部署完成网站为：http://usoppp.com
 
 需要做的事情
 ------------
