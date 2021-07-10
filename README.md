@@ -1,8 +1,7 @@
 # javaonline
 javaonline
 
-附件为源代码，部署完成网站为：http://usoppp.com
-http://49.233.88.212/
+附件为源代码，部署完成网站为：http://www.usoppp.com/index?pageNow=1
 
 需要做的事情
 ------------
