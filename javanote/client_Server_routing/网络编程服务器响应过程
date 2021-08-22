@@ -1,0 +1,104 @@
+
+# 用自己的语言详细描述启动服务器后，浏览器访问 localhost:3000 的流程和函数调用过程。
+
+包括
+1. 请求的来回
+2. 请求谁发起的
+3. 分别经过了哪些函数处理
+
+
+## 启动服务器后，浏览器访问 localhost:9000 的流程和函数调用过程：
+1.请求的来回
+
+1.1 服务器在后台持续监听,client客户端web浏览器向server端的服务器发送请求"http://localhost:9000/";进入get()函数
+1.2 get函数中:初始化发送 HTTP 请求给服务器request 
+String request = String.format("GET %s HTTP/1.1\r\nHost: %s\r\n\r\n", path, host);
+1.3 get函数中:客户端client与服务器server建立网络连接
+1.4 get函数中:socketSendAll(socket, request)函数接收request,发送request打包请求发给服务器
+1.5 进入socketSendAll(socket, request):
+    把request通过getBytes()转换为二进制/getOutputStream()函数将request写为发送出去的流;
+	
+
+1.5 服务器server端建立连接之后,接收request;socketReadAll(socket)读取request
+socketReadAll函数把收到的数据按字节拼接,每次读1024字节到缓存中,读完最后打包成data返回给request;
+1.6 Request r = new Request(requestString);函数把request按照格式解析了一下,解析为以下五个字段;
+    String path;
+    String method;
+    String body;
+    HashMap<String, String> query;
+    HashMap<String, String> form;
+	其中,如果request字节数为0,则返回[接受到了一个空请求];
+1.7 服务器通过 path 来判断要返回什么数据response = responseForPath(r.path);
+	path分为以下几种情况,当path匹配是进入对应的函数中,得到response:
+        if (path.equals("/")) {
+            response = routeIndex(); //其中<img src='/doge.gif'><img src='/doge2.gif'>
+        } else if (path.equals("/login")) {
+            response = routeLogin();//登录界面
+        } else if (path.equals("/message")) {
+            response = routeMessage();// html("html_basic.html"),返回html主体,进入另一个web页面
+        } else if (path.equals("/doge.gif")) {
+            response = routeImage("doge.gif");//返回动态图1
+        } else if (path.equals("/doge2.gif")) {
+            response = routeImage("doge2.gif");//返回动态图2
+        } else {
+            response = route404();//返回404错误页面
+        }
+
+1.8 服务器的相应数据打包为response = socketReadAll(socket);
+1.9 进入socketReadAll函数把收到的数据按字节拼接,每次读1024字节到缓存中,读完最后打包成data返回给response
+2.0 最后函数get(response)接收后返回给client客户端,打印出response结果;
+
+
+//socketReadALl() 读取浏览器请求
+//解析请求字符串, 得到 path
+//根据 path, 决定调用哪个路由函数
+//路由函数把 header 和 body 拼接在一起, String 转成 bytes(二进制)
+//路由函数返回 bytes 数组
+//socketSendALl 函数, 把请求发回给浏览器
+
+
+GET 请求会把 form 表单的数据附到 url 上
+http://localhost:9000/message?author=xxx&message=111
+
+
+服务器收到的 GET 请求
+GET /message?author=xxx&message=111 HTTP/1.1
+Host: localhost:9000
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3
+Sec-Fetch-Site: same-origin
+Referer: http://localhost:9000/message
+Accept-Encoding: gzip, deflate, br
+Accept-Language: zh-CN,zh;q=0.9
+Cookie: Idea-65fadc5a=bc833dc0-2e67-4a4b-ae67-f7f3c3aaf54c; Webstorm-a444f122=351b16de-8d04-4345-9ed2-a43532865ec1
+
+
+POST 请求会把 form 表单的数据, 附到 http 请求的 body 部分
+服务器收到的 POST 请求
+
+POST /message HTTP/1.1
+Host: localhost:9000
+Connection: keep-alive
+Content-Length: 25
+Cache-Control: max-age=0
+Origin: http://localhost:9000
+Upgrade-Insecure-Requests: 1
+Content-Type: application/x-www-form-urlencoded
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3
+Sec-Fetch-Site: same-origin
+Referer: http://localhost:9000/message
+Accept-Encoding: gzip, deflate, br
+Accept-Language: zh-CN,zh;q=0.9
+Cookie: Idea-65fadc5a=bc833dc0-2e67-4a4b-ae67-f7f3c3aaf54c; Webstorm-a444f122=351b16de-8d04-4345-9ed2-a43532865ec1
+
+author=post&message=ccccc
+
+
+
