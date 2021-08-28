@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录</title>
+</head>
+<body>
+    <a href='/login'>LOGIN</a>
+    <a href='/'>HOME</a>
+    <h1>please login</h1>
+    <h1>欢迎 {loginUser} 登录</h1>
+
+    <form action="/login" method="post">
+        <input style="border: solid" name="username" placeholder="请输入用户名" />
+        <br>
+        <input style="border: solid" name="password" placeholder="请输入密码"/>
+        <br>
+        <input style="border: solid" name="note" placeholder="请输入签名"/>
+        <br>
+        <button type="submit">POST 提交</button>
+
+        {loginResult}
+    </form>
+
+</body>
+</html>
