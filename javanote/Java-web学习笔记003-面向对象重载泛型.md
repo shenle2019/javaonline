@@ -45,42 +45,42 @@ public class Student {
 }
 ```
 1. 
-// 对 类 调用得到一个「类的实例」
-// 赋值给变量 s1
-// 这时候 s1 引用的是一个 Student 类型(也就是对象 Student 的实例)
-// 也称之为 对象
+- 对 类 调用得到一个「类的实例」
+- 赋值给变量 s1
+- 这时候 s1 引用的是一个 Student 类型(也就是对象 Student 的实例)
+- 也称之为 对象
 Student s1 = new Student("usopp", 169.0);
 
 2. 
-// 可以通过 . 语法访问对象的属性(也就是类开始时用创造的变量)
-// 类的变量叫做 属性(单纯只是名字不同)
+- 可以通过 . 语法访问对象的属性(也就是类开始时用创造的变量)
+- 类的变量叫做 属性(单纯只是名字不同)
 log("class, s1 %s %f", s1.name, s1.height);
-// 输出如下
-// class, s1 usopp 169.0
+- 输出如下
+- class, s1 usopp 169.0
 
 3. 
-// 可以改变 s1 的属性值
+- 可以改变 s1 的属性值
 s1.name = "xiaousopp";
 s1.height = 1.69;
 log("class, s1 属性 %s %f", s1.name, s1.height);
-// 输出如下
-// class, s1 属性 xiaousopp 1.690000
+- 输出如下
+- class, s1 属性 xiaousopp 1.690000
 
 4. 
-// 可以创建多个互相独立的实例
-// 下面的例子可以看到, s2 和 s3 是互相独立的
+- 可以创建多个互相独立的实例
+- 下面的例子可以看到, s2 和 s3 是互相独立的
 Student s2 = new Student("usopp II", 169);
 Student s3 = new Student("三代瓜", 169);
 log("%s
 
 5. 
-// static
+- static
 不加 static 修饰的方法, 只能在实例上使用
 加 static 修饰的方法, 能直接用 类名.方法名() 这种形式调用
 加 static 修饰的方法, 内部不能用 this 关键字
 
 6. 
-// 可以给类增加一些方法(函数)
+- 可以给类增加一些方法(函数)
 
 ```Java
 public class StudentInfo {
@@ -102,31 +102,31 @@ public class StudentInfo {
 }
 ```
 
-// 初始化
+- 初始化
 StudentInfo info = new StudentInfo("usopp", 123);
 
-// 调用 info 的 show 方法
-// 注意, show 的第一个参数 self 是不用传递的
-// Java 自动帮你传递第一个参数
-// 下面这句实际上相当于 StudentInfo.show(info)
-// 这是一个 Java 提供的方便书写的语法(这种我们称之为 语法糖)
+- 调用 info 的 show 方法
+- 注意, show 的第一个参数 self 是不用传递的
+- Java 自动帮你传递第一个参数
+- 下面这句实际上相当于 StudentInfo.show(info)
+- 这是一个 Java 提供的方便书写的语法(这种我们称之为 语法糖)
 StudentInfo info = new StudentInfo("usopp", 123);
 info.show();
 
-// 调用 info 的 update 方法
-// 也是不用传递 self 的
+- 调用 info 的 update 方法
+- 也是不用传递 self 的
 info.update("xiao", 169.98);
 info.show();
 
-// ==
-// 封装, 上面 show 和 update 就是封装的例子
-// 意思是说把一些操作做好, 对外部来说只需要简单调用即可
-//
+- ==
+- 封装, 上面 show 和 update 就是封装的例子
+- 意思是说把一些操作做好, 对外部来说只需要简单调用即可
+-
 
 
-// =
-// 继承
-// 继承是说, 父类的东西你可以直接拿来用
+- =
+- 继承
+- 继承是说, 父类的东西你可以直接拿来用
 ```Java
 public class Phone {
     public double price;
@@ -153,7 +153,7 @@ public class AnZhuo extends Phone{
 }
 ```
 
-// 初始化并调用
+- 初始化并调用
 Phone p = new Phone();
 p.on();
 p.off();
@@ -161,21 +161,21 @@ p.off();
 
 AnZhuo a =  new AnZhuo();
 
-// 因为 AnZhuo 实现了自己的 on 所以这里调用的是自己的
+- 因为 AnZhuo 实现了自己的 on 所以这里调用的是自己的
 a.on()
 
-// 下面的这句 a.off() 能调用成功, 虽然 AnZhuo 类没有实现 off() 方法
-// 但是 Java 会自动在父类中查找 off() 方法
-// off 是继承自父类的方法, 所以被调用了
+- 下面的这句 a.off() 能调用成功, 虽然 AnZhuo 类没有实现 off() 方法
+- 但是 Java 会自动在父类中查找 off() 方法
+- off 是继承自父类的方法, 所以被调用了
 a.off()
 
 
-// =
-// 类主要的优势就是 Hashmap 的替代品 和 可封装方法
-// 其他上课要讲的杂项
+- =
+- 类主要的优势就是 Hashmap 的替代品 和 可封装方法
+- 其他上课要讲的杂项
 
 
-// 多态
+- 多态
 不同的对象, 调用同一个方法, 行为不同
 1. 继承
 确保两个对象用同样的方法
