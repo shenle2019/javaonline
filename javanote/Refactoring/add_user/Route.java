@@ -78,7 +78,7 @@ public class Route {
                 result = "登录失败";
             }
         }
-        Utils.log("findByUsernamePassword555 (%s)", UserService.findByUsernamePassword("1234567", "1234567"));
+        //Utils.log("findByUsernamePassword555 (%s)", UserService.findByUsernamePassword("1234567", "1234567"));
         String body = html("login.html");
         body = body.replace("{loginResult}", result);
         body = body.replace("{loginUser}", loginUserName);
