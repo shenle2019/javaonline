@@ -168,3 +168,67 @@ public class usoppTemplate {
 }
 ```
 
+
+
+### 模板引擎使用方法
+
+把用户注册的 register.html 改成模板渲染
+routeRegister 里面的模板传参方法也要进行更改
+
+```java
+1.register.ftl:
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>注册</title>
+</head>
+<body>
+    <a href='/login'>LOGIN</a>
+    <a href='/'>HOME</a>
+    <h1>注册用户</h1>
+
+    <form action="/register" method="post">
+        <input style="border: solid" name="username" placeholder="请输入用户名" />
+        <br>
+        <input style="border: solid" name="password" placeholder="请输入密码"/>
+        <br>
+        <button type="submit">POST 提交</button>
+
+        <h5> ${registerResultlist}</h5>
+
+    </form>
+
+</body>
+</html>
+
+2.RouteUser.java中的routeRegister修改如下:
+
+    public static byte[] routeRegister(Request request) {
+        HashMap<String, String> data = null;
+        String result = "";
+        if (request.method.equals("POST")) {
+            data = request.form;
+            if (data != null) {
+                UserService.add(data);
+                ;
+                result = "注册成功";
+            }
+        }
+
+        HashMap<String, String> header = new HashMap<>();
+        header.put("Content-Type", "text/html");
+
+        HashMap<String, String> d = new HashMap<>();
+        d.put("registerResultlist", result);
+        String body = usoppTemplate.render(d, "register.ftl");
+
+//        String body = html("register.html");
+//        body = body.replace("{registerResult}", result);
+
+        String response = Route.responseWithHeader(200, header, body);
+        return response.getBytes();
+    }
+```
+
