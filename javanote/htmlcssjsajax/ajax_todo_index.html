@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ajax TODO 程序</title>
+</head>
+<body>
+<h1>TODO</h1>
+
+<input id="id-input-add" style="border: solid" name="content" placeholder="请输入TODO" />
+<br>
+<button id="id-button-add" type="submit">添加</button>
+
+<div id="id-div-todoList">
+
+</div>
+
+<div>
+</div>
+
+
+<script>
+var log = console.log.bind(console);
+
+var ajax = function (method, path, data, callback) {
+    var r = new XMLHttpRequest();
+    r.open(method, path, true)
+
+    r.setRequestHeader("Content-Type", "application/json")
+
+    r.onreadystatechange = function () {
+        if (r.readyState === 4) {
+            callback(r.response)
+        }
+    }
+
+    data = JSON.stringify(data);
+    r.send(data)
+}
+
+var insertTodo = function (todoHtml) {
+    var divTodo = document.querySelector("#id-div-todoList");
+    divTodo.insertAdjacentHTML("beforeEnd", todoHtml)
+}
+
+var todoTempalte = function (todo) {
+    var t = `
+        <div class="todo-cell">
+            <span> ${todo.id}: ${todo.content} </span>
+        </div>
+    `
+    return t;
+}
+
+var loadTodos = function () {
+    var path = "/ajax/todo/all"
+    var method = "POST"
+    var data = ""
+    ajax(method, path, data, function (response) {
+        log("todo all: ", response)
+        var todoList = JSON.parse(response)
+        log("todo all: ", todoList)
+
+        for (let i = 0; i < todoList.length; i++) {
+            var todo = todoList[i]
+            var html = todoTempalte(todo)
+            log("insert html", html)
+            insertTodo(html)
+        }
+    })
+}
+
+
+/*
+1. 给 add button 绑定事件
+2. 在事件处理函数中, 获取 input 的值
+3. 往后端发 ajax 请求
+4. 如果回复插入成功, 那么, 在页面里面, 插入新的 todo
+
+ */
+
+
+var bindEvents = function () {
+    var buttonAdd = document.querySelector("#id-button-add")
+    buttonAdd.addEventListener("click", function () {
+        log("click button")
+        var input = document.querySelector("#id-input-add")
+        var content = input.value
+
+        var path = "/ajax/todo/add"
+        var method = "POST"
+        var data = {
+            content: content
+        }
+
+        ajax(method, path, data, function (resopnse) {
+            var todo = JSON.parse(resopnse)
+            var html = todoTempalte(todo);
+            insertTodo(html)
+        })
+    })
+}
+
+
+var __main = function() {
+    bindEvents()
+    loadTodos();
+}
+
+__main()
+
+
+</script>
+
+</body>
+</html>
